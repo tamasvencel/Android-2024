@@ -29,5 +29,6 @@ Here are some valuable resources to aid you in your course project:
 - [IntelliJ IDEA Documentation](https://www.jetbrains.com/idea/documentation/): Official documentation for IntelliJ IDEA, which is compatible with Kotlin development.
 - [freeCodeCamp](https://www.freecodecamp.org/): A website offering free courses on programming and software development.
 - [Udacity](https://www.udacity.com/): An online learning platform with a range of courses, including Android development.
+- [Moodle](https://moodle.ms.sapientia.ro/course/view.php?id=119):  This is where you can access all exercises related to this course.
 
 Happy coding!
