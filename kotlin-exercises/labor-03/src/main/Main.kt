@@ -1,9 +1,12 @@
 package main
 
 fun main(args: Array<String>) {
-    println("Hello World!")
+    val itemRepository = ItemRepository()
+    val itemService = ItemService(itemRepository)
+    val itemController = ItemController(itemService)
 
-    // Try adding program arguments via Run/Debug configuration.
-    // Learn more about running applications: https://www.jetbrains.com/help/idea/running-applications.html.
-    println("Program arguments: ${args.joinToString()}")
+    print("Enter the number of questions for the quiz: ")
+    val numberOfQuestions = readlnOrNull()?.toIntOrNull() ?: 5 // Default to 5 if input is invalid
+
+    itemController.quiz(numberOfQuestions)
 }
