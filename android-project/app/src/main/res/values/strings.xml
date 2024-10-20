@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">RecipesApp</string>
+    <string name="splash_image_description">App logo</string>
+    <string name="enter_your_message">Enter your message</string>
+    <string name="start">Start</string>
+    <string name="welcome">Welcome!</string>
 </resources>
