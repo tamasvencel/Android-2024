@@ -3,11 +3,9 @@ package com.tasty.recipesapp
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import com.tasty.recipesapp.databinding.ActivityMainBinding
+//import com.tasty.recipesapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-
-    private lateinit var binding: ActivityMainBinding
 
     companion object {
         const val TAG = "MainActivity"
@@ -15,18 +13,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        setContentView(R.layout.activity_main)
         Log.d(TAG, "onCreate: MainActivity created.")
-
-        // Set up view binding
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        // Get the message from the intent
-        val message = intent.getStringExtra(SplashActivity.EXTRA_MESSAGE)
-
-        // Display the message in the TextView
-        binding.textViewMessage.text = message ?: "No message received"
     }
 
     override fun onStart() {
