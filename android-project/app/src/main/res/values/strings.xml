@@ -6,4 +6,9 @@
     <string name="welcome">Welcome!</string>
     <string name="app_logo">RecipeHub Logo</string>
     <string name="app_description">Your go-to app for discovering, sharing, and organizing delicious recipes!</string>
+    <string name="home_fragment_text">Welcome to RecipeHub Home</string>
+    <string name="recipes_fragment_text">Here will be the list of Recipes</string>
+    <string name="recipe_detail_fragment_text">Recipe details will be displayed here</string>
+    <string name="profile_fragment_text">User profile information</string>
+    <string name="get_started">Get Started</string>
 </resources>

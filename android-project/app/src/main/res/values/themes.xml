@@ -3,6 +3,9 @@
     <style name="Base.Theme.RecipesApp" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="android:colorPrimaryDark">@color/extra_dark_orange</item> <!-- Old method (pre Android 21) -->
+        <item name="android:statusBarColor">@color/extra_dark_orange</item> <!-- Modern method -->
+        <item name="android:windowLightStatusBar">false</item>
     </style>
 
     <style name="Theme.RecipesApp" parent="Base.Theme.RecipesApp"/>
