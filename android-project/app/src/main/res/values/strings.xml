@@ -5,8 +5,5 @@
     <string name="start">Start</string>
     <string name="welcome">Welcome!</string>
     <string name="app_logo">RecipeHub Logo</string>
-    <string name="app_description">Your go-to app for discovering, sharing, and organizing delicious recipes.
-        Whether you are a seasoned chef or a cooking enthusiast,
-        RecipeHub brings inspiration to your kitchen with easy-to-follow recipes and step-by-step guides.
-        Explore new flavors and elevate your cooking experience!</string>
+    <string name="app_description">Your go-to app for discovering, sharing, and organizing delicious recipes!</string>
 </resources>
