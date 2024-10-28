@@ -1,13 +1,13 @@
-package com.tasty.recipesapp
+package com.tasty.recipesapp.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.tasty.recipesapp.R
 
 //import com.tasty.recipesapp.databinding.ActivityMainBinding
 

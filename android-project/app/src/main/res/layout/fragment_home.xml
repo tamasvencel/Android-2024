@@ -3,16 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HomeFragment">
+    tools:context=".ui.home.HomeFragment">
 
     <Button
         android:id="@+id/get_started_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/get_started"
-        android:layout_marginTop="500dp"
         android:layout_marginStart="10dp"
-        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="150dp"
+        android:layout_gravity="center_horizontal|bottom"
         android:backgroundTint="@color/dark_orange"
         />
 </FrameLayout>

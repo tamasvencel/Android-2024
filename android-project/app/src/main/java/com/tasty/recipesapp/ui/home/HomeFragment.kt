@@ -1,12 +1,11 @@
-package com.tasty.recipesapp
+package com.tasty.recipesapp.ui.home
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import android.widget.Button
+import com.tasty.recipesapp.R
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
 
