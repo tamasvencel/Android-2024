@@ -6,14 +6,20 @@
     android:background="@drawable/recipes_background"
     tools:context=".ui.profile.ProfileFragment">
 
-    <TextView
-        android:id="@+id/profile_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/profile_fragment_text"
-        android:gravity="center"
-        android:textSize="24sp"
-        android:layout_gravity="center"
-        />
+<!--    <TextView-->
+<!--        android:id="@+id/profile_text"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="@string/profile_fragment_text"-->
+<!--        android:gravity="center"-->
+<!--        android:textSize="24sp"-->
+<!--        android:layout_gravity="center"-->
+<!--        />-->
+
+    <!-- RecyclerView for the Profile Fragment -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/profileRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
 </FrameLayout>

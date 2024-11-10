@@ -11,4 +11,7 @@
     <string name="recipe_detail_fragment_text">Recipe details will be displayed here</string>
     <string name="profile_fragment_text">User profile information</string>
     <string name="get_started">Get Started</string>
+    <string name="recipe_image">Recipe image</string>
+    <string name="recipe_name">Recipe Name</string>
+    <string name="recipe_thumbnail">Recipe Thumbnail</string>
 </resources>

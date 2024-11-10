@@ -1,6 +1,7 @@
 package com.tasty.recipesapp.mappers
 
 import com.tasty.recipesapp.dto.RecipeDTO
+import com.tasty.recipesapp.model.NutritionModel
 import com.tasty.recipesapp.model.RecipeModel
 
 fun RecipeDTO.toModel(): RecipeModel {
@@ -17,6 +18,5 @@ fun RecipeDTO.toModel(): RecipeModel {
         numServings = this.numServings,
         components = this.components.map { it.toModel() },  // Assuming there's a toModel() for components
         instructions = this.instructions.map { it.toModel() },  // Assuming there's a toModel() for instructions
-        nutrition = this.nutrition.toModel()  // Assuming nutrition has a toModel() function too
     )
 }

@@ -13,5 +13,4 @@ data class RecipeModel(
     val numServings: Int,               // Corresponds to "numServings"
     val components: List<ComponentModel>,  // List of components (needs to be mapped separately)
     val instructions: List<InstructionModel>,  // List of instructions (already handled)
-    val nutrition: NutritionModel       // Nutrition info (needs to be mapped separately)
 )

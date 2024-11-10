@@ -6,14 +6,22 @@
     android:background="@drawable/recipes_background"
     tools:context=".ui.recipe.RecipesFragment">
 
-    <TextView
-        android:id="@+id/recipes_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/recipes_fragment_text"
-        android:gravity="center"
-        android:textSize="24sp"
-        android:layout_gravity="center"
-        />
+<!--    <TextView-->
+<!--        android:id="@+id/recipes_text"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="@string/recipes_fragment_text"-->
+<!--        android:gravity="center"-->
+<!--        android:textSize="24sp"-->
+<!--        android:layout_gravity="center"-->
+<!--        />-->
+
+    <!-- RecyclerView to display the list of recipes -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
+    />
 
 </FrameLayout>

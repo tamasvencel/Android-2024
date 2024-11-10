@@ -13,5 +13,4 @@ data class RecipeDTO(
     val numServings: Int,
     val components: List<ComponentDTO>,
     val instructions: List<InstructionDTO>,
-    val nutrition: NutritionDTO
 )
