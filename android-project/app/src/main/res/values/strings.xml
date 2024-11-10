@@ -14,4 +14,5 @@
     <string name="recipe_image">Recipe image</string>
     <string name="recipe_name">Recipe Name</string>
     <string name="recipe_thumbnail">Recipe Thumbnail</string>
+    <string name="recipe_description">Recipe Description</string>
 </resources>

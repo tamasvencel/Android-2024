@@ -61,7 +61,7 @@ class RecipesFragment : Fragment() {
     private fun navigateToRecipeDetail(recipe: RecipeModel) {
         findNavController().navigate(
             R.id.action_recipesFragment_to_recipeDetailFragment,
-            bundleOf("recipeId" to recipe.id)
+            bundleOf("recipeId" to recipe.id, "recipeName" to recipe.name, "recipeDescription" to recipe.description, "recipeThumbnail" to recipe.thumbnailUrl)
         )
     }
 }

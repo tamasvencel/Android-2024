@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@drawable/recipes_background">
 
 <!--    <TextView-->
 <!--        android:id="@+id/recipe_detail_text"-->
@@ -16,47 +17,27 @@
 <!--        />-->
 
     <ImageView
-        android:id="@+id/recipeThumbnailImageView"
+        android:id="@+id/recipeImageView"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:contentDescription="@string/recipe_thumbnail"
-        android:scaleType="centerCrop" />
+        android:scaleType="centerCrop"
+        android:contentDescription="@string/recipe_image" />
 
     <TextView
         android:id="@+id/recipeNameTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_marginTop="8dp" />
+        android:paddingTop="16dp"
+        android:text="@string/recipe_name" />
 
     <TextView
         android:id="@+id/recipeDescriptionTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="16sp"
-        android:layout_marginTop="4dp" />
-
-    <TextView
-        android:id="@+id/numServingsTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:layout_marginTop="4dp" />
-
-    <TextView
-        android:id="@+id/videoUrlTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="14sp"
-        android:layout_marginTop="4dp" />
-
-    <TextView
-        android:id="@+id/keywordsTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="14sp"
-        android:layout_marginTop="4dp" />
+        android:paddingTop="8dp"
+        android:text="@string/recipe_description" />
 </LinearLayout>
 
 

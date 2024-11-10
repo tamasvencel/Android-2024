@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.tasty.recipesapp.R
 import com.tasty.recipesapp.adapter.RecipeAdapter
@@ -33,6 +34,9 @@ class ProfileFragment : Fragment() {
 
         profileRecyclerView = rootView.findViewById(R.id.profileRecyclerView) // replace with actual ID
 
+        // Set the LayoutManager for the RecyclerView
+        profileRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+
         recipeViewModel.recipeList.observe(viewLifecycleOwner, Observer { recipes ->
             val randomRecipes = recipes.shuffled().take(3) // Pick 3 random recipes
             val profileAdapter = RecipeAdapter(
@@ -50,7 +54,7 @@ class ProfileFragment : Fragment() {
     private fun navigateToRecipeDetail(recipe: RecipeModel) {
         findNavController().navigate(
             R.id.action_profileFragment_to_recipeDetailFragment,
-            bundleOf("recipeId" to recipe.id)
+            bundleOf("recipeId" to recipe.id, "recipeName" to recipe.name, "recipeDescription" to recipe.description, "recipeThumbnail" to recipe.thumbnailUrl)
         )
     }
 }

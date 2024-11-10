@@ -21,13 +21,34 @@ class RecipeDetailFragment : Fragment() {
 
     private val recipeViewModel: RecipeListViewModel by viewModels()
 
+    // Declare UI components
+    private lateinit var recipeNameTextView: TextView
+    private lateinit var recipeDescriptionTextView: TextView
+    private lateinit var recipeImageView: ImageView
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_recipe_detail, container, false)
 
+        // Initialize UI components
+        recipeNameTextView = rootView.findViewById(R.id.recipeNameTextView)
+        recipeDescriptionTextView = rootView.findViewById(R.id.recipeDescriptionTextView)
+        recipeImageView = rootView.findViewById(R.id.recipeImageView)
+
+        // Retrieve data from the bundle
         val recipeId = arguments?.getInt("recipeId") ?: return rootView
+        val recipeName = arguments?.getString("recipeName") ?: ""
+        val recipeDescription = arguments?.getString("recipeDescription") ?: ""
+        val recipeThumbnail = arguments?.getString("recipeThumbnail") ?: ""
+
+        // Set data to UI components
+        recipeNameTextView.text = recipeName
+        recipeDescriptionTextView.text = recipeDescription
+        Glide.with(this)
+            .load(recipeThumbnail)
+            .into(recipeImageView)
 
         recipeViewModel.recipeList.observe(viewLifecycleOwner) { recipes ->
             val selectedRecipe = recipes.find { it.id == recipeId }
@@ -39,24 +60,6 @@ class RecipeDetailFragment : Fragment() {
                 // Set the recipe description in a TextView
                 val recipeDescriptionTextView: TextView = rootView.findViewById(R.id.recipeDescriptionTextView)
                 recipeDescriptionTextView.text = it.description
-
-                // Set the number of servings in a TextView
-                val numServingsTextView: TextView = rootView.findViewById(R.id.numServingsTextView)
-                numServingsTextView.text = "Servings: ${it.numServings}"
-
-                // Set the recipe's thumbnail image in an ImageView (optional)
-                val thumbnailImageView: ImageView = rootView.findViewById(R.id.recipeThumbnailImageView)
-                Glide.with(requireContext())
-                    .load(it.thumbnailUrl) // Using Glide to load the image into the ImageView
-                    .into(thumbnailImageView)
-
-                // If you have a video URL for the recipe, you can also set it here (optional)
-                val videoUrlTextView: TextView = rootView.findViewById(R.id.videoUrlTextView)
-                videoUrlTextView.text = "Video: ${it.originalVideoUrl}"
-
-                // If you want to show the keywords, you can also display them in a TextView
-                val keywordsTextView: TextView = rootView.findViewById(R.id.keywordsTextView)
-                keywordsTextView.text = "Keywords: ${it.keywords}"
             }
             // Update UI with the selected recipe's details
         }
