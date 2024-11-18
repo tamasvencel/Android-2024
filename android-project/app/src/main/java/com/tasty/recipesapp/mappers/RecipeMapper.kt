@@ -16,7 +16,7 @@ fun RecipeDTO.toModel(): RecipeModel {
         originalVideoUrl = this.originalVideoUrl,
         country = this.country,
         numServings = this.numServings,
-        components = this.components.map { it.toModel() },  // Assuming there's a toModel() for components
-        instructions = this.instructions.map { it.toModel() },  // Assuming there's a toModel() for instructions
+        components = this.components.map { it.toModel() },
+        instructions = this.instructions.map { it.toModel() },
     )
 }

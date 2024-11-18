@@ -6,6 +6,7 @@ import com.tasty.recipesapp.model.InstructionModel
 fun InstructionDTO.toModel(): InstructionModel {
     return InstructionModel(
         id = this.instructionID,
-        displayText = this.displayText
+        displayText = this.displayText,
+        position = this.position
     )
 }

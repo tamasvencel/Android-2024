@@ -18,6 +18,8 @@ class RecipeAdapter(
     inner class RecipeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val recipeName: TextView = itemView.findViewById(R.id.recipe_name)
         val recipeImage: ImageView = itemView.findViewById(R.id.recipe_image) // ImageView for the recipe thumbnail
+        val recipeDescriptionTextView: TextView = itemView.findViewById(R.id.recipeDescriptionTextView)
+
         init {
             itemView.setOnClickListener {
                 onItemClick(recipeList[adapterPosition]) // Trigger the onItemClick lambda when an item is clicked
@@ -33,6 +35,7 @@ class RecipeAdapter(
     override fun onBindViewHolder(holder: RecipeViewHolder, position: Int) {
         val recipe = recipeList[position]
         holder.recipeName.text = recipe.name
+        holder.recipeDescriptionTextView.text = recipe.description
         // Assuming you have an image URL in your RecipeModel (you can also use a placeholder if necessary)
         Glide.with(holder.itemView.context)
             .load(recipe.thumbnailUrl)  // load image from URL (if available)

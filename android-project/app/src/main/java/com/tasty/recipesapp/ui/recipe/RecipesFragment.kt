@@ -1,6 +1,7 @@
 package com.tasty.recipesapp.ui.recipe
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -61,7 +62,7 @@ class RecipesFragment : Fragment() {
     private fun navigateToRecipeDetail(recipe: RecipeModel) {
         findNavController().navigate(
             R.id.action_recipesFragment_to_recipeDetailFragment,
-            bundleOf("recipeId" to recipe.id, "recipeName" to recipe.name, "recipeDescription" to recipe.description, "recipeThumbnail" to recipe.thumbnailUrl)
+            bundleOf("recipeId" to recipe.id, "recipeName" to recipe.name, "recipeDescription" to recipe.description, "recipeThumbnail" to recipe.thumbnailUrl, "recipeOriginalVideoUrl" to recipe.originalVideoUrl)
         )
     }
 }
