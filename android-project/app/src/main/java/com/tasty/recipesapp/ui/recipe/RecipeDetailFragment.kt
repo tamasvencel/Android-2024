@@ -85,7 +85,7 @@ class RecipeDetailFragment : Fragment() {
         }
 
         recipeViewModel.recipeList.observe(viewLifecycleOwner) { recipes ->
-            val selectedRecipe = recipes.find { it.id == recipeId }
+            val selectedRecipe = recipes.find { it.id.toInt() == recipeId }
             selectedRecipe?.let {
                 if (recipeOriginalVideoUrl.isNotEmpty()) {
                     val videoUri = Uri.parse(recipeOriginalVideoUrl)

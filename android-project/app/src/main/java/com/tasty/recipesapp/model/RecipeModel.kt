@@ -1,7 +1,7 @@
 package com.tasty.recipesapp.model
 
 data class RecipeModel(
-    val id: Int,                        // Corresponds to "recipeID"
+    val id: Long,                        // Corresponds to "recipeID"
     val name: String,                   // Corresponds to "name"
     val description: String,            // Corresponds to "description"
     val thumbnailUrl: String,           // Corresponds to "thumbnailUrl"

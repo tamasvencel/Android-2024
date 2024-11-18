@@ -1,0 +1,55 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Recipe Name Input -->
+    <EditText
+        android:id="@+id/recipeName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:autofillHints="name"
+        android:hint="@string/recipe_name_2"
+        android:importantForAccessibility="yes" />
+
+    <!-- Recipe Description Input -->
+    <EditText
+        android:id="@+id/recipeDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:autofillHints="description"
+        android:hint="@string/recipe_description_2"
+        android:importantForAccessibility="yes" />
+
+    <!-- Recipe Ingredients Input -->
+    <EditText
+        android:id="@+id/recipeIngredients"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:autofillHints="ingredients"
+        android:hint="@string/recipe_ingredients"
+        android:importantForAccessibility="yes" />
+
+    <!-- Recipe Instructions Input -->
+    <EditText
+        android:id="@+id/recipeInstructions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:autofillHints="instructions"
+        android:hint="@string/recipe_instructions"
+        android:importantForAccessibility="yes" />
+
+    <!-- Save Button -->
+    <Button
+        android:id="@+id/saveRecipeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/save_recipe"
+        android:importantForAccessibility="yes" />
+
+</LinearLayout>

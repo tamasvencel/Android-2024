@@ -13,7 +13,7 @@ class RecipeListViewModel(application: Application): AndroidViewModel(applicatio
     private val _recipeList = MutableLiveData<List<RecipeModel>>()
     val recipeList: LiveData<List<RecipeModel>> = _recipeList
 
-    fun fetchRecipeData() {
-        _recipeList.value = recipeRepository.getRecipes()
+    suspend fun fetchRecipeData() {
+        _recipeList.value = recipeRepository.getAllRecipes()
     }
 }

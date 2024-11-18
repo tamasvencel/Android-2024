@@ -1,7 +1,7 @@
 package com.tasty.recipesapp.dto
 
 data class RecipeDTO(
-    val recipeID: Int,
+    val recipeID: Long,
     val name: String,
     val description: String,
     val thumbnailUrl: String,
