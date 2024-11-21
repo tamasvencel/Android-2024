@@ -15,8 +15,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.tasty.recipesapp.R
 import com.tasty.recipesapp.adapter.RecipeAdapter
+import com.tasty.recipesapp.model.InstructionModel
 import com.tasty.recipesapp.model.RecipeModel
 import com.tasty.recipesapp.viewmodel.RecipeListViewModel
+import com.tasty.recipesapp.wrappers.RecipeInstructionsParcelable
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -62,9 +64,22 @@ class RecipesFragment : Fragment() {
     }
 
     private fun navigateToRecipeDetail(recipe: RecipeModel) {
-        findNavController().navigate(
-            R.id.action_recipesFragment_to_recipeDetailFragment,
-            bundleOf("recipeId" to recipe.id, "recipeName" to recipe.name, "recipeDescription" to recipe.description, "recipeThumbnail" to recipe.thumbnailUrl, "recipeOriginalVideoUrl" to recipe.originalVideoUrl)
-        )
+        val instructionModels = recipe.instructions.mapIndexed { index, instructionText ->
+            // Create an InstructionModel for each instruction
+            InstructionModel(id = index + 1, displayText = instructionText.displayText, position = index + 1)
+        }
+
+// Now create the RecipeInstructionsParcelable with the List<InstructionModel>
+        val instructionsParcelable = RecipeInstructionsParcelable(instructionModels)
+
+        val bundle = Bundle().apply {
+            putString("recipeId", recipe.id.toString())
+            putString("recipeName", recipe.name)
+            putString("recipeDescription", recipe.description)
+            putString("recipeThumbnail", recipe.thumbnailUrl)
+            putString("recipeOriginalVideoUrl", recipe.originalVideoUrl)
+            putParcelable("recipeInstructions", instructionsParcelable) // Use ArrayList as Serializable
+        }
+        findNavController().navigate(R.id.action_recipesFragment_to_recipeDetailFragment, bundle)
     }
 }

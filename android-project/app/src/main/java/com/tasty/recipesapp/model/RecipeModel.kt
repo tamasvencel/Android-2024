@@ -1,5 +1,7 @@
 package com.tasty.recipesapp.model
 
+import java.io.Serializable
+
 data class RecipeModel(
     val id: Long,                        // Corresponds to "recipeID"
     val name: String,                   // Corresponds to "name"
@@ -13,4 +15,4 @@ data class RecipeModel(
     val numServings: Int,               // Corresponds to "numServings"
     val components: List<ComponentModel>,  // List of components (needs to be mapped separately)
     val instructions: List<InstructionModel>,  // List of instructions (already handled)
-)
+) : Serializable

@@ -11,9 +11,14 @@ import android.widget.TextView
 import android.widget.VideoView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.tasty.recipesapp.R
+import com.tasty.recipesapp.adapter.InstructionsAdapter
+import com.tasty.recipesapp.model.InstructionModel
 import com.tasty.recipesapp.viewmodel.RecipeListViewModel
+import com.tasty.recipesapp.wrappers.RecipeInstructionsParcelable
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -31,6 +36,7 @@ class RecipeDetailFragment : Fragment() {
     private lateinit var recipeDescriptionTextView: TextView
     private lateinit var recipeImageView: ImageView
     private lateinit var recipeVideoView: VideoView
+    private lateinit var instructionsRecyclerView: RecyclerView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,6 +49,7 @@ class RecipeDetailFragment : Fragment() {
         recipeDescriptionTextView = rootView.findViewById(R.id.recipeDescriptionTextView)
         recipeImageView = rootView.findViewById(R.id.recipeImageView)
         recipeVideoView = rootView.findViewById(R.id.recipeVideoView)
+        instructionsRecyclerView = rootView.findViewById(R.id.instructionsRecyclerView)
 
         // Retrieve data from the bundle
         val recipeId = arguments?.getInt("recipeId") ?: return rootView
@@ -50,8 +57,9 @@ class RecipeDetailFragment : Fragment() {
         val recipeDescription = arguments?.getString("recipeDescription") ?: ""
         val recipeThumbnail = arguments?.getString("recipeThumbnail") ?: ""
         val recipeOriginalVideoUrl = arguments?.getString("recipeOriginalVideoUrl") ?: ""
-        val recipeInstructions = arguments?.getString("recipeInstructions") ?: ""
-        Log.d("RecipeDetailFragment", "Recipe instructions: $recipeInstructions")
+
+        val instructionsParcelable = arguments?.getParcelable<RecipeInstructionsParcelable>("recipeInstructions")
+        val recipeInstructions = instructionsParcelable?.instructions ?: listOf()
 
         // Set data to UI components
         recipeNameTextView.text = recipeName
@@ -86,37 +94,11 @@ class RecipeDetailFragment : Fragment() {
             recipeVideoView.visibility = View.GONE // Hide the VideoView if no URL
         }
 
-        recipeViewModel.recipeList.observe(viewLifecycleOwner) { recipes ->
-            val selectedRecipe = recipes.find { it.id.toInt() == recipeId }
-            selectedRecipe?.let {
-                if (recipeOriginalVideoUrl.isNotEmpty()) {
-                    val videoUri = Uri.parse(recipeOriginalVideoUrl)
-                    recipeVideoView.visibility = View.VISIBLE
-                    recipeVideoView.setVideoURI(videoUri)
-                    recipeVideoView.setOnPreparedListener { mediaPlayer ->
-                        mediaPlayer.start() // Autoplay the video when ready
-
-                        // The video height should be fixed at 200dp and width should be match_parent
-                        val videoWidth = mediaPlayer.videoWidth
-                        val videoHeight = mediaPlayer.videoHeight
-                        val aspectRatio = videoWidth.toFloat() / videoHeight.toFloat()
-
-                        // Ensure the video scales correctly within the 200dp height
-                        val screenWidth = resources.displayMetrics.widthPixels
-                        val adjustedWidth = (630 * aspectRatio).toInt()
-
-                        // Set the fixed height to 200dp and adjust width accordingly
-                        val layoutParams = recipeVideoView.layoutParams
-                        layoutParams.width = screenWidth // Match parent width
-                        layoutParams.height = 580
-                        recipeVideoView.layoutParams = layoutParams
-                    }
-                } else {
-                    recipeVideoView.visibility = View.GONE // Hide the VideoView if no URL
-                }
-            }
-            // Update UI with the selected recipe's details
-        }
+        // Set up the instructions RecyclerView
+        instructionsRecyclerView.layoutManager = LinearLayoutManager(context)
+        val adapter = InstructionsAdapter(recipeInstructions)
+        instructionsRecyclerView.adapter = adapter
+        instructionsRecyclerView.visibility = View.VISIBLE
 
         return rootView
     }

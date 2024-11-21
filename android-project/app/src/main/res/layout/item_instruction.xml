@@ -1,0 +1,24 @@
+<!-- res/layout/item_instruction.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Step text -->
+    <TextView
+        android:id="@+id/instructionPosition"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Step 1"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <!-- Instruction text -->
+    <TextView
+        android:id="@+id/instructionText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Instruction description here"
+        android:textSize="16sp" />
+</LinearLayout>
