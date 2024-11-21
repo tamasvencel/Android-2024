@@ -120,7 +120,42 @@
         "originalVideoUrl": "https://www.google.com/search?q=ceasar+salad&sca_esv=1c412232e298010e&sca_upv=1&biw=1536&bih=695&tbm=vid&sxsrf=ADLYWIJOrXTFUvuqtW0Sx3qBi7VTqUt87g%3A1727071651852&ei=owXxZvnMM9-C9u8P0YnMkAY&ved=0ahUKEwi5qr2is9iIAxVfgf0HHdEEE2IQ4dUDCA0&uact=5&oq=ceasar+salad&gs_lp=Eg1nd3Mtd2l6LXZpZGVvIgxjZWFzYXIgc2FsYWQyCxAAGIAEGJECGIoFMgoQABiABBhDGIoFMgcQABiABBgKMgcQABiABBgKMgcQABiABBgKMgcQABiABBgKMgcQABiABBgKMgcQABiABBgKMgcQABiABBgKMgcQABiABBgKSJIDUABYAHAAeACQAQCYAW2gAW2qAQMwLjG4AQPIAQD4AQL4AQGYAgGgAniYAwCSBwMwLjGgB-sH&sclient=gws-wiz-video#fpstate=ive&vld=cid:dc55894c,vid:7Mi8DmbAE74,st:0",
         "country": "Canada",
         "numServings": 3,
-        "components": [],
+        "components": [
+            {
+                "rawText": "1 head romaine lettuce, chopped",
+                "extraComment": "",
+                "ingredient": {
+                    "name": "romaine lettuce"
+                },
+                "measurement": {
+                    "quantity": "1",
+                    "unit": {
+                        "name": "head",
+                        "displaySingular": "head",
+                        "displayPlural": "heads",
+                        "abbreviation": ""
+                    }
+                },
+                "position": 1
+            },
+            {
+                "rawText": "1/2 cup Caesar dressing",
+                "extraComment": "",
+                "ingredient": {
+                    "name": "Caesar dressing"
+                },
+                "measurement": {
+                    "quantity": "0.5",
+                    "unit": {
+                        "name": "cup",
+                        "displaySingular": "cup",
+                        "displayPlural": "cups",
+                        "abbreviation": "c"
+                    }
+                },
+                "position": 2
+            }
+        ],
         "instructions": [
             {
                 "instructionID": 11,

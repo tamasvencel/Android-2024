@@ -8,9 +8,10 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.tasty.recipesapp.R
+import dagger.hilt.android.AndroidEntryPoint
 
 //import com.tasty.recipesapp.databinding.ActivityMainBinding
-
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var navController: NavController

@@ -1,88 +1,169 @@
-package com.tasty.recipesapp.ui.recipe
-
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Toast
-import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
-import com.tasty.recipesapp.R
-import com.tasty.recipesapp.entities.RecipeEntity
-import com.tasty.recipesapp.model.ComponentModel
-import com.tasty.recipesapp.viewmodel.ProfileViewModel
-import org.json.JSONObject
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [NewRecipeFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class NewRecipeFragment : Fragment() {
-    private lateinit var recipeName: EditText
-    private lateinit var recipeDescription: EditText
-    private lateinit var recipeIngredients: EditText
-    private lateinit var recipeInstructions: EditText
-    private lateinit var saveRecipeButton: Button
-
-    private val profileViewModel: ProfileViewModel by viewModels()
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val rootView = inflater.inflate(R.layout.fragment_new_recipe, container, false)
-
-        recipeName = rootView.findViewById(R.id.recipeName)
-        recipeDescription = rootView.findViewById(R.id.recipeDescription)
-        recipeIngredients = rootView.findViewById(R.id.recipeIngredients)
-        recipeInstructions = rootView.findViewById(R.id.recipeInstructions)
-        saveRecipeButton = rootView.findViewById(R.id.saveRecipeButton)
-
-        saveRecipeButton.setOnClickListener {
-            val name = recipeName.text.toString()
-            val description = recipeDescription.text.toString()
-            val ingredients = recipeIngredients.text.toString()
-            val instructions = recipeInstructions.text.toString()
-
-            // Check if any required fields are empty and display a message if necessary
-            if (name.isEmpty() || description.isEmpty() || ingredients.isEmpty() || instructions.isEmpty()) {
-                Toast.makeText(context, "Please fill in all fields!", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-
-            // Create a JSON representation of the recipe (optional)
-            val jsonRecipe = JSONObject().apply {
-                put("name", name)
-                put("description", description)
-                put("ingredients", ingredients)
-                put("instructions", instructions)
-            }
-
-            val jsonString = jsonRecipe.toString()
-
-            // Create RecipeEntity with all required fields
-            val recipeEntity = RecipeEntity(
-                internalId = 0, // Or generate this value if you need it
-                json = jsonString
-            )
-
-            // Save the recipe to the Room database
-            profileViewModel.insertRecipe(recipeEntity)
-            Toast.makeText(context, "Recipe saved!", Toast.LENGTH_SHORT).show()
-
-            // Navigate back to the Profile or other screen
-            findNavController().popBackStack()
-        }
-
-        return rootView
-    }
-}
+//package com.tasty.recipesapp.ui.recipe
+//
+//import android.os.Bundle
+//import android.view.LayoutInflater
+//import android.view.View
+//import android.view.ViewGroup
+//import android.widget.EditText
+//import android.widget.LinearLayout
+//import android.widget.Toast
+//import androidx.fragment.app.Fragment
+//import androidx.fragment.app.viewModels
+//import androidx.lifecycle.lifecycleScope
+//import androidx.navigation.fragment.findNavController
+//import com.tasty.recipesapp.R
+//import com.tasty.recipesapp.databinding.FragmentNewRecipeBinding
+//import com.tasty.recipesapp.model.ComponentModel
+//import com.tasty.recipesapp.model.IngredientModel
+//import com.tasty.recipesapp.model.InstructionModel
+//import com.tasty.recipesapp.model.MeasurementModel
+//import com.tasty.recipesapp.model.NutritionModel
+//import com.tasty.recipesapp.model.RecipeModel
+//import com.tasty.recipesapp.model.UnitModel
+//import com.tasty.recipesapp.viewmodel.ProfileViewModel
+//import dagger.hilt.android.AndroidEntryPoint
+//import kotlinx.coroutines.launch
+//
+//@AndroidEntryPoint
+//class NewRecipeFragment : Fragment() {
+//
+//    private var _binding: FragmentNewRecipeBinding? = null
+//    private val binding get() = _binding!!
+//
+//    private val profileViewModel: ProfileViewModel by viewModels()
+//
+//    override fun onCreateView(
+//        inflater: LayoutInflater, container: ViewGroup?,
+//        savedInstanceState: Bundle?
+//    ): View {
+//        _binding = FragmentNewRecipeBinding.inflate(inflater, container, false)
+//        setupListeners()
+//        return binding.root
+//    }
+//
+//    private fun setupListeners() {
+//        binding.addIngredientButton.setOnClickListener {
+//            addDynamicField(
+//                binding.ingredientsLayout,
+//                "Ingredient"
+//            )
+//        }
+//        binding.addInstructionButton.setOnClickListener {
+//            addDynamicField(
+//                binding.instructionsLayout,
+//                "Instruction"
+//            )
+//        }
+//        binding.saveRecipeButton.setOnClickListener { saveRecipe() }
+//    }
+//
+//    private fun addDynamicField(layout: LinearLayout, hint: String) {
+//        val editText = EditText(requireContext()).apply {
+//            layoutParams = LinearLayout.LayoutParams(
+//                LinearLayout.LayoutParams.MATCH_PARENT,
+//                LinearLayout.LayoutParams.WRAP_CONTENT
+//            )
+//            this.hint = hint
+//            textSize = 16f
+//            setPadding(16, 16, 16, 16)
+//        }
+//        layout.addView(editText)
+//    }
+//
+//    private fun saveRecipe() {
+//        val title = binding.recipeTitle.text.toString()
+//        val description = binding.recipeDescription.text.toString()
+//        val pictureUrl = binding.recipePictureUrl.text.toString()
+//
+//        // Collect Nutrition Details
+//        val nutrition = NutritionModel(
+//            calories = binding.nutritionCalories.text.toString().toIntOrNull() ?: 0,
+//            protein = binding.nutritionProtein.text.toString().toIntOrNull() ?: 0,
+//            fat = binding.nutritionFat.text.toString().toIntOrNull() ?: 0,
+//            carbs = 0,
+//            sugar = 0,
+//            fiber = 0
+//        )
+//
+//        // Collect Ingredients
+//        val ingredients = getDynamicFields(binding.ingredientsLayout)
+//
+//        // Collect Instructions
+//        val instructions = getDynamicFields(binding.instructionsLayout)
+//
+//        // Build Recipe Model
+//        val recipe = RecipeModel(
+//            recipeID = 0,
+//            name = title,
+//            description = description,
+//            thumbnailUrl = pictureUrl,
+//            keywords = emptyList(), // Replace with actual keywords if needed
+//            isPublic = true,
+//            userEmail = "user@example.com", // Replace with actual email
+//            originalVideoUrl = "", // Optional
+//            country = "US", // Default or user-provided
+//            servings = 1, // Default or user-provided
+//            components = ingredients.mapIndexed { index, ingredient ->
+//                ComponentModel(
+//                    rawText = ingredient,
+//                    extraComment = "",
+//                    ingredient = IngredientModel(name = ingredient),
+//                    measurement = MeasurementModel(
+//                        quantity = "1",
+//                        unit = UnitModel(
+//                            name = "unit",
+//                            displaySingular = "unit",
+//                            displayPlural = "units",
+//                            abbreviation = "u"
+//                        )
+//                    ),
+//                    position = index + 1
+//                )
+//            },
+//            instructions = instructions.mapIndexed { index, instruction ->
+//                InstructionModel(
+//                    id = index + 1,
+//                    displayText = instruction,
+//                    step = index + 1
+//                )
+//            },
+//            nutrition = nutrition
+//        )
+//
+//        // Insert recipe into the database using ProfileViewModel
+//        viewLifecycleOwner.lifecycleScope.launch {
+//            profileViewModel.insertRecipe(recipe)
+//        }
+//
+//        Toast.makeText(requireContext(), "Recipe saved!", Toast.LENGTH_SHORT).show()
+//
+//        // Clear all fields
+//        binding.recipeTitle.text?.clear()
+//        binding.recipeDescription.text?.clear()
+//        binding.recipePictureUrl.text?.clear()
+//        binding.nutritionCalories.text?.clear()
+//        binding.nutritionProtein.text?.clear()
+//        binding.nutritionFat.text?.clear()
+//        binding.ingredientsLayout.removeAllViews()
+//        binding.instructionsLayout.removeAllViews()
+//
+//        findNavController().navigate(R.id.profileFragment)
+//
+//    }
+//
+//    private fun getDynamicFields(layout: LinearLayout): List<String> {
+//        val fields = mutableListOf<String>()
+//        for (i in 0 until layout.childCount) {
+//            val view = layout.getChildAt(i)
+//            if (view is EditText) {
+//                fields.add(view.text.toString())
+//            }
+//        }
+//        return fields
+//    }
+//
+//    override fun onDestroyView() {
+//        super.onDestroyView()
+//        _binding = null
+//    }
+//}

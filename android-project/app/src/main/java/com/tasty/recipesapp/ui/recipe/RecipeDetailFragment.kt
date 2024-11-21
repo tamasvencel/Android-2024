@@ -14,12 +14,14 @@ import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.tasty.recipesapp.R
 import com.tasty.recipesapp.viewmodel.RecipeListViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * A simple [Fragment] subclass.
  * Use the [RecipeDetailFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
+@AndroidEntryPoint
 class RecipeDetailFragment : Fragment() {
 
     private val recipeViewModel: RecipeListViewModel by viewModels()

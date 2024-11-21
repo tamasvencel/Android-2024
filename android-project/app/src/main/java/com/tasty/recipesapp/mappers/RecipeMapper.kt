@@ -19,8 +19,12 @@ fun RecipeDTO.toModel(): RecipeModel {
         country = this.country,
         numServings = this.numServings,
         components = this.components.map { it.toModel() },
-        instructions = this.instructions.map { it.toModel() },
+        instructions = this.instructions?.toModelList() ?: emptyList()
     )
+}
+
+fun List<RecipeDTO>.toModelList(): List<RecipeModel> {
+    return this.map { it.toModel() }
 }
 
 // Convert RecipeEntity to RecipeModel (for Room database conversion)

@@ -15,12 +15,9 @@ import com.tasty.recipesapp.R
 import com.tasty.recipesapp.adapter.RecipeAdapter
 import com.tasty.recipesapp.model.RecipeModel
 import com.tasty.recipesapp.viewmodel.RecipeListViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
-/**
- * A simple [Fragment] subclass.
- * Use the [ProfileFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
+@AndroidEntryPoint
 class ProfileFragment : Fragment() {
 
     private val recipeViewModel: RecipeListViewModel by viewModels()

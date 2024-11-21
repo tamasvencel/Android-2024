@@ -10,3 +10,7 @@ fun InstructionDTO.toModel(): InstructionModel {
         position = this.position
     )
 }
+
+fun List<InstructionDTO>.toModelList(): List<InstructionModel> {
+    return this.map { it.toModel() }
+}
