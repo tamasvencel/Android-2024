@@ -11,3 +11,11 @@ data class RecipeEntity(
     @SerializedName("json_data")
     val json: String
 )
+
+@Entity(tableName = "saved_recipe")
+data class SavedRecipeEntity(
+    @PrimaryKey(autoGenerate = true)
+    val internalId: Long = 0L,
+    @SerializedName("json_data")
+    val json: String
+)

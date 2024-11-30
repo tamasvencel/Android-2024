@@ -30,6 +30,21 @@ class RecipeRepository(private val recipeDao: RecipeDao) {
         return recipes ?: emptyList()
     }
 
+    // Add a favorite recipe
+    suspend fun addFavoriteRecipe(recipe: RecipeModel) {
+        recipeDao.insert(recipe)
+    }
+
+    // Remove a favorite recipe
+    suspend fun removeFavoriteRecipe(recipeId: Int) {
+        recipeDao.delete(recipeId)
+    }
+
+    // Get all favorite recipes
+    fun getFavoriteRecipes(): LiveData<List<FavoriteRecipe>> {
+        return recipeDao.getAllFavorites()
+    }
+
     // Get all recipes from the Room database
     suspend fun getAllRecipes(): List<RecipeModel> {
         return recipeDao.getAllRecipes().map {
@@ -111,11 +126,6 @@ class RecipeRepository(private val recipeDao: RecipeDao) {
                                "instructionID": 17,
                                "displayText": "When the shrimp are cooked, add lemon juice, mix once more, then serve while hot.",
                                "position": 7
-                           },
-                           {
-                               "instructionID": 18,
-                               "displayText": "Enjoy!",
-                               "position": 8
                            }
                        ]
                    },
@@ -166,11 +176,6 @@ class RecipeRepository(private val recipeDao: RecipeDao) {
                                "instructionID": 17,
                                "displayText": "When the shrimp are cooked, add lemon juice, mix once more, then serve while hot.",
                                "position": 7
-                           },
-                           {
-                               "instructionID": 18,
-                               "displayText": "Enjoy!",
-                               "position": 8
                            }
                        ]
                    },
@@ -256,11 +261,6 @@ class RecipeRepository(private val recipeDao: RecipeDao) {
                                "instructionID": 17,
                                "displayText": "When the shrimp are cooked, add lemon juice, mix once more, then serve while hot.",
                                "position": 7
-                           },
-                           {
-                               "instructionID": 18,
-                               "displayText": "Enjoy!",
-                               "position": 8
                            }
                        ]
                    }
