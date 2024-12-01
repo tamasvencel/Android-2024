@@ -7,18 +7,22 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.tasty.recipesapp.dao.RecipeDao
 import com.tasty.recipesapp.entities.SavedRecipeEntity
+import com.tasty.recipesapp.mappers.fromSavedRecipeEntity
 import com.tasty.recipesapp.mappers.toEntity
 import com.tasty.recipesapp.mappers.toSavedRecipeEntity
 import com.tasty.recipesapp.model.RecipeModel
 import com.tasty.recipesapp.repository.RecipeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class RecipeListViewModel @Inject constructor(
-    private val recipeRepository: RecipeRepository
+    private val recipeRepository: RecipeRepository,
 ) : ViewModel() {
 
     private val _recipeList = MutableLiveData<List<RecipeModel>>()
@@ -47,6 +51,13 @@ class RecipeListViewModel @Inject constructor(
             recipeRepository.toggleSavedRecipe(recipe)
             // Reload favorite recipes after toggling
             loadFavoriteRecipes()
+        }
+    }
+
+    fun deleteRecipe(recipe: RecipeModel) {
+        viewModelScope.launch {
+            recipeRepository.deleteRecipe(recipe) // Toggle bookmark in repository
+            loadFavoriteRecipes() // Refresh saved recipes list
         }
     }
 

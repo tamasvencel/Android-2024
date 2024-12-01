@@ -1,12 +1,10 @@
 package com.tasty.recipesapp.ui.recipe
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -15,7 +13,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.tasty.recipesapp.R
+import com.tasty.recipesapp.RoomDatabase.RecipeDatabase
 import com.tasty.recipesapp.adapter.RecipeAdapter
+import com.tasty.recipesapp.dao.RecipeDao
 import com.tasty.recipesapp.model.InstructionModel
 import com.tasty.recipesapp.model.RecipeModel
 import com.tasty.recipesapp.viewmodel.RecipeListViewModel
@@ -34,6 +34,7 @@ class RecipesFragment : Fragment() {
     private lateinit var recipeRecyclerView: RecyclerView
     private var recipeAdapter: RecipeAdapter? = null
     private lateinit var fabAddRecipe: FloatingActionButton
+    private lateinit var recipeDao: RecipeDao
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,6 +57,8 @@ class RecipesFragment : Fragment() {
 
         recipeViewModel.fetchRecipeData()
 
+        recipeDao = RecipeDatabase.getDatabase(requireContext()).recipeDao()
+
         recipeViewModel.recipeList.observe(viewLifecycleOwner, Observer { recipes ->
             if (recipes != null && recipes.isNotEmpty()) {
                 if (recipeAdapter == null) {
@@ -73,7 +76,9 @@ class RecipesFragment : Fragment() {
                             if (position != -1) {
                                 recipeAdapter?.notifyItemChanged(position) // Update only the changed item
                             }
-                        }
+                        },
+                        onDeleteClick = null,
+                        recipeDao = recipeDao
                     )
                     recipeRecyclerView.adapter = recipeAdapter
                 }

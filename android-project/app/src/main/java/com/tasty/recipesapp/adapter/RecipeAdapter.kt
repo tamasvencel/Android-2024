@@ -1,5 +1,6 @@
 package com.tasty.recipesapp.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,11 +10,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.tasty.recipesapp.model.RecipeModel
 import com.tasty.recipesapp.R
+import com.tasty.recipesapp.dao.RecipeDao
+import com.tasty.recipesapp.mappers.toSavedRecipeEntity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class RecipeAdapter(
     var recipeList: List<RecipeModel>,
     private val onItemClick: (RecipeModel) -> Unit,
-    private val onFavoriteClick: (RecipeModel) -> Unit
+    private val onFavoriteClick: (RecipeModel) -> Unit,
+    private val onDeleteClick: ((RecipeModel) -> Unit)?,
+    private val recipeDao: RecipeDao
 ) : RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder>() {
 
     private val currentUserEmail: String = "user@example.com"
@@ -24,6 +32,7 @@ class RecipeAdapter(
         val recipeImage: ImageView = itemView.findViewById(R.id.recipe_image) // ImageView for the recipe thumbnail
         val recipeDescriptionTextView: TextView = itemView.findViewById(R.id.recipeDescriptionTextView)
         val favoriteIcon: ImageView = itemView.findViewById(R.id.favoriteIcon) // Assuming you have a favorite icon
+        val deleteIcon: ImageView = itemView.findViewById(R.id.deleteIcon)
 
         init {
             itemView.setOnClickListener {
@@ -34,6 +43,12 @@ class RecipeAdapter(
                 val recipe = recipeList[adapterPosition]
                 onFavoriteClick(recipeList[adapterPosition]) // Toggle favorite when the icon is clicked
                 updateFavoriteIcon(recipe, favoriteIcon)
+            }
+
+            // Handle delete button click
+            deleteIcon.setOnClickListener {
+                val recipe = recipeList[adapterPosition]
+                deleteRecipeFromDatabase(recipe)
             }
         }
     }
@@ -55,8 +70,10 @@ class RecipeAdapter(
         // Check if the recipe was created by the current user
         if (recipe.userEmail == currentUserEmail) {
             holder.favoriteIcon.visibility = View.GONE // Hide the favorite button if it was created by the current user
+            holder.deleteIcon.visibility = View.VISIBLE
         } else {
             holder.favoriteIcon.visibility = View.VISIBLE // Otherwise, show the favorite button
+            holder.deleteIcon.visibility = View.GONE
             // Set the correct icon based on the favorite status
             updateFavoriteIcon(recipe, holder.favoriteIcon)
         }
@@ -68,6 +85,29 @@ class RecipeAdapter(
             favoriteIcon.setImageResource(R.drawable.ic_favorite_filled) // Replace with your filled heart drawable
         } else {
             favoriteIcon.setImageResource(R.drawable.ic_favorite_border) // Replace with your outline heart drawable
+        }
+    }
+
+    private fun deleteRecipeFromDatabase(recipe: RecipeModel) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                // Make sure recipeDao is initialized and delete the recipe
+                val savedRecipeEntity = recipe.toSavedRecipeEntity() // Ensure this is correctly mapped
+                recipe.isFavorite = !recipe.isFavorite
+                recipeDao.removeSavedRecipe(savedRecipeEntity)
+
+                // Once deleted, we should remove the recipe from the adapter list as well
+                CoroutineScope(Dispatchers.Main).launch {
+                    // Remove the recipe from the list
+                    val position = recipeList.indexOf(recipe)
+                    if (position != -1) {
+                        recipeList = recipeList.toMutableList().apply { removeAt(position) }
+                        notifyItemRemoved(position) // Notify adapter that the item has been removed
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e("RecipeAdapter", "Failed to delete recipe", e)
+            }
         }
     }
 

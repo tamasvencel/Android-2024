@@ -28,4 +28,5 @@
     <string name="add_new_recipe">add new recipe</string>
     <string name="recipe_picture_url">Recipe Picture URL</string>
     <string name="add_instruction">Add Instruction</string>
+    <string name="delete_icon">delete icon</string>
 </resources>

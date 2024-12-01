@@ -52,6 +52,12 @@ class RecipeRepository(private val recipeDao: RecipeDao) {
         }
     }
 
+    // Delete a recipe from the database
+    suspend fun deleteRecipe(recipe: RecipeModel) {
+        val savedRecipe = recipe.toSavedRecipeEntity()
+        removeSavedRecipe(savedRecipe)
+    }
+
     // Get all recipes from the Room database
     suspend fun getAllRecipes(): List<RecipeModel> {
         return recipeDao.getAllRecipes().map {
@@ -78,12 +84,6 @@ class RecipeRepository(private val recipeDao: RecipeDao) {
     // Function to remove a saved recipe from the database
     suspend fun removeSavedRecipe(savedRecipe: SavedRecipeEntity) {
         recipeDao.removeSavedRecipe(savedRecipe)
-    }
-
-    // Delete a recipe from the database
-    suspend fun deleteRecipe(recipe: RecipeEntity) {
-        // Delete from Room Database
-        recipeDao.deleteRecipe(recipe)
     }
 
     // Fetch a single recipe by its ID

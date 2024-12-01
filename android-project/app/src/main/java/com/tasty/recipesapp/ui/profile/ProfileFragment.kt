@@ -1,26 +1,27 @@
 package com.tasty.recipesapp.ui.profile
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.tasty.recipesapp.R
+import com.tasty.recipesapp.RoomDatabase.RecipeDatabase
 import com.tasty.recipesapp.adapter.RecipeAdapter
+import com.tasty.recipesapp.dao.RecipeDao
 import com.tasty.recipesapp.model.InstructionModel
 import com.tasty.recipesapp.model.RecipeModel
 import com.tasty.recipesapp.viewmodel.ProfileViewModel
 import com.tasty.recipesapp.viewmodel.RecipeListViewModel
 import com.tasty.recipesapp.wrappers.RecipeInstructionsParcelable
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -30,6 +31,7 @@ class ProfileFragment : Fragment() {
     private val profileViewModel: ProfileViewModel by viewModels()
     private lateinit var profileRecyclerView: RecyclerView
     private var profileAdapter: RecipeAdapter? = null
+    private lateinit var recipeDao: RecipeDao
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,6 +44,8 @@ class ProfileFragment : Fragment() {
         // Set the LayoutManager for the RecyclerView
         profileRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
+        recipeDao = RecipeDatabase.getDatabase(requireContext()).recipeDao()
+
         recipeViewModel.favoriteRecipes.observe(viewLifecycleOwner, Observer { favoriteRecipes ->
             if (profileAdapter == null) {
                  profileAdapter = RecipeAdapter(
@@ -50,7 +54,11 @@ class ProfileFragment : Fragment() {
                     onFavoriteClick = { recipe ->
                         recipe.isFavorite = !recipe.isFavorite
                         recipeViewModel.toggleFavoriteRecipe(recipe) // Toggle favorite when clicked
-                    }
+                    },
+                     onDeleteClick = { recipe ->
+                         recipeViewModel.deleteRecipe(recipe)
+                     },
+                     recipeDao = recipeDao
                 )
                 profileRecyclerView.adapter = profileAdapter
             } else {
@@ -64,13 +72,12 @@ class ProfileFragment : Fragment() {
         return rootView
     }
 
-
-    private fun fetchAndSetRecipes() {
-        // Use lifecycleScope to launch the coroutine
-        viewLifecycleOwner.lifecycleScope.launch {
-            profileViewModel.allRecipes()
-        }
-    }
+//    private fun fetchAndSetRecipes() {
+//        // Use lifecycleScope to launch the coroutine
+//        viewLifecycleOwner.lifecycleScope.launch {
+//            profileViewModel.allRecipes()
+//        }
+//    }
 
     private fun navigateToRecipeDetail(recipe: RecipeModel) {
         val instructionModels = recipe.instructions.mapIndexed { index, instructionText ->

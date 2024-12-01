@@ -50,21 +50,6 @@
         android:backgroundTint="@android:color/white"
         />
 
-    <!-- Recipe Instructions Input -->
-    <EditText
-        android:id="@+id/recipeInstructions"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textMultiLine"
-        android:autofillHints="instructions"
-        android:textSize="18sp"
-        android:padding="16dp"
-        android:hint="@string/recipe_instruction"
-        android:textColorHint="@color/dark_gray"
-        android:textColor="@color/better_white"
-        android:backgroundTint="@android:color/white"
-        android:importantForAccessibility="yes" />
-
     <LinearLayout
         android:id="@+id/instructionsLayout"
         android:orientation="vertical"
