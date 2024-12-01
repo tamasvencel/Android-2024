@@ -15,6 +15,9 @@ class RecipeAdapter(
     private val onItemClick: (RecipeModel) -> Unit,
     private val onFavoriteClick: (RecipeModel) -> Unit
 ) : RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder>() {
+
+    private val currentUserEmail: String = "user@example.com"
+
     // ViewHolder to hold the views for each item in the list
     inner class RecipeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val recipeName: TextView = itemView.findViewById(R.id.recipe_name)
@@ -49,8 +52,14 @@ class RecipeAdapter(
             .load(recipe.thumbnailUrl)  // load image from URL (if available)
             .into(holder.recipeImage)
 
-        // Set the correct icon based on the favorite status
-        updateFavoriteIcon(recipe, holder.favoriteIcon)
+        // Check if the recipe was created by the current user
+        if (recipe.userEmail == currentUserEmail) {
+            holder.favoriteIcon.visibility = View.GONE // Hide the favorite button if it was created by the current user
+        } else {
+            holder.favoriteIcon.visibility = View.VISIBLE // Otherwise, show the favorite button
+            // Set the correct icon based on the favorite status
+            updateFavoriteIcon(recipe, holder.favoriteIcon)
+        }
     }
 
     private fun updateFavoriteIcon(recipe: RecipeModel, favoriteIcon: ImageView) {

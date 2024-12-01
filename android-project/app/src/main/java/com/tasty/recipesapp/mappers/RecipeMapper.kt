@@ -13,7 +13,6 @@ fun RecipeDTO.toModel(): RecipeModel {
         name = this.name,
         description = this.description,
         thumbnailUrl = this.thumbnailUrl,
-        keywords = this.keywords.split(",").map { it.trim() },  // Convert comma-separated keywords to a list
         isPublic = this.isPublic,
         userEmail = this.userEmail,
         originalVideoUrl = this.originalVideoUrl,

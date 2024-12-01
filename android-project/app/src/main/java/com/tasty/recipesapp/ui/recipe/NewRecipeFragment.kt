@@ -91,13 +91,13 @@ class NewRecipeFragment : Fragment() {
                     position = index + 1
                 )
             },
-            keywords = emptyList(),
             isPublic = true,
             userEmail = "user@example.com",  // Use the actual user email
             originalVideoUrl = "",
             country = "US",
             numServings = 1,
-            components = emptyList()
+            components = emptyList(),
+            isFavorite = true
         )
 
         // Insert recipe into the database using RecipeListViewModel

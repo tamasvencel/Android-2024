@@ -52,7 +52,7 @@ class RecipeListViewModel @Inject constructor(
 
     fun insertRecipe(recipe: RecipeModel) {
         viewModelScope.launch {
-            val newRecipe = recipe.toEntity()
+            val newRecipe = recipe.toSavedRecipeEntity()
             Log.d("RecipeListViewModel", "Recipe after converting to entity: ${recipe.toEntity()}")
             recipeRepository.insertRecipe(newRecipe)
             Log.d("RecipeListViewModel", "Recipe inserted: $recipe")

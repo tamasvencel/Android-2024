@@ -68,9 +68,9 @@ class RecipeRepository(private val recipeDao: RecipeDao) {
     }
 
     // Add a new recipe to the database
-    suspend fun insertRecipe(recipe: RecipeEntity) {
+    suspend fun insertRecipe(recipe: SavedRecipeEntity) {
         Log.d("RecipeRepository", "RecipeEntity before insertion: $recipe")
-        recipeDao.insertRecipe(recipe)
+        recipeDao.insertSavedRecipe(recipe)
         Log.d("RecipeRepository", "Recipe inserted: $recipe")
     }
 

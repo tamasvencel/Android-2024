@@ -44,7 +44,7 @@ class ProfileFragment : Fragment() {
 
         recipeViewModel.favoriteRecipes.observe(viewLifecycleOwner, Observer { favoriteRecipes ->
             if (profileAdapter == null) {
-                val profileAdapter = RecipeAdapter(
+                 profileAdapter = RecipeAdapter(
                     recipeList = favoriteRecipes,
                     onItemClick = { recipe -> navigateToRecipeDetail(recipe) },
                     onFavoriteClick = { recipe ->
