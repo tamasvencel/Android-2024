@@ -11,18 +11,26 @@ import com.tasty.recipesapp.model.RecipeModel
 import com.tasty.recipesapp.R
 
 class RecipeAdapter(
-    private val recipeList: List<RecipeModel>,
-    private val onItemClick: (RecipeModel) -> Unit
+    var recipeList: List<RecipeModel>,
+    private val onItemClick: (RecipeModel) -> Unit,
+    private val onFavoriteClick: (RecipeModel) -> Unit
 ) : RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder>() {
     // ViewHolder to hold the views for each item in the list
     inner class RecipeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val recipeName: TextView = itemView.findViewById(R.id.recipe_name)
         val recipeImage: ImageView = itemView.findViewById(R.id.recipe_image) // ImageView for the recipe thumbnail
         val recipeDescriptionTextView: TextView = itemView.findViewById(R.id.recipeDescriptionTextView)
+        val favoriteIcon: ImageView = itemView.findViewById(R.id.favoriteIcon) // Assuming you have a favorite icon
 
         init {
             itemView.setOnClickListener {
                 onItemClick(recipeList[adapterPosition]) // Trigger the onItemClick lambda when an item is clicked
+            }
+            // Handle favorite icon click
+            favoriteIcon.setOnClickListener {
+                val recipe = recipeList[adapterPosition]
+                onFavoriteClick(recipeList[adapterPosition]) // Toggle favorite when the icon is clicked
+                updateFavoriteIcon(recipe, favoriteIcon)
             }
         }
     }
@@ -40,6 +48,18 @@ class RecipeAdapter(
         Glide.with(holder.itemView.context)
             .load(recipe.thumbnailUrl)  // load image from URL (if available)
             .into(holder.recipeImage)
+
+        // Set the correct icon based on the favorite status
+        updateFavoriteIcon(recipe, holder.favoriteIcon)
+    }
+
+    private fun updateFavoriteIcon(recipe: RecipeModel, favoriteIcon: ImageView) {
+        // Set the favorite icon state (you can set it to a filled heart or outline based on whether it's a favorite)
+        if (recipe.isFavorite) {
+            favoriteIcon.setImageResource(R.drawable.ic_favorite_filled) // Replace with your filled heart drawable
+        } else {
+            favoriteIcon.setImageResource(R.drawable.ic_favorite_border) // Replace with your outline heart drawable
+        }
     }
 
     override fun getItemCount(): Int {

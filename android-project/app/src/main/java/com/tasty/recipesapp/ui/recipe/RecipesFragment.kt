@@ -30,8 +30,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class RecipesFragment : Fragment() {
     // Initialize ViewModel
     private val recipeViewModel: RecipeListViewModel by viewModels()
-
     private lateinit var recipeRecyclerView: RecyclerView
+    private var recipeAdapter: RecipeAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,15 +50,36 @@ class RecipesFragment : Fragment() {
 
         recipeViewModel.recipeList.observe(viewLifecycleOwner, Observer { recipes ->
             if (recipes != null && recipes.isNotEmpty()) {
-                val recipeAdapter = RecipeAdapter(
-                    recipeList = recipes,
-                    onItemClick = { recipe -> navigateToRecipeDetail(recipe) }
-                )
-                recipeRecyclerView.adapter = recipeAdapter
+                if (recipeAdapter == null) {
+                    val recipeAdapter = RecipeAdapter(
+                        recipeList = recipes,
+                        onItemClick = { recipe -> navigateToRecipeDetail(recipe) },
+                        onFavoriteClick = { recipe ->
+                            // Toggle favorite status
+                            recipe.isFavorite = !recipe.isFavorite
+
+                            recipeViewModel.toggleFavoriteRecipe(recipe)
+
+                            // Find the position of the updated recipe and notify only that item
+                            val position = recipes.indexOf(recipe)
+                            if (position != -1) {
+                                recipeAdapter?.notifyItemChanged(position) // Update only the changed item
+                            }
+                        }
+                    )
+                    recipeRecyclerView.adapter = recipeAdapter
+                }
+                else {
+                    // Update the recipe list if the adapter is already initialized
+                    recipeAdapter?.recipeList = recipes
+                    recipeAdapter?.notifyDataSetChanged() // This will refresh the entire list if needed
+                }
             } else {
                 Toast.makeText(context, "No recipes available", Toast.LENGTH_SHORT).show()
             }
         })
+
+        recipeViewModel.fetchRecipeData()
 
         return rootView
     }
@@ -69,7 +90,7 @@ class RecipesFragment : Fragment() {
             InstructionModel(id = index + 1, displayText = instructionText.displayText, position = index + 1)
         }
 
-// Now create the RecipeInstructionsParcelable with the List<InstructionModel>
+        // Now create the RecipeInstructionsParcelable with the List<InstructionModel>
         val instructionsParcelable = RecipeInstructionsParcelable(instructionModels)
 
         val bundle = Bundle().apply {

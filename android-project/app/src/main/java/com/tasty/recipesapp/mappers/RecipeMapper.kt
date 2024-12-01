@@ -5,6 +5,7 @@ import com.tasty.recipesapp.entities.RecipeEntity
 import com.tasty.recipesapp.model.NutritionModel
 import com.tasty.recipesapp.model.RecipeModel
 import com.google.gson.Gson
+import com.tasty.recipesapp.entities.SavedRecipeEntity
 
 fun RecipeDTO.toModel(): RecipeModel {
     return RecipeModel(
@@ -39,4 +40,17 @@ fun RecipeModel.toEntity(): RecipeEntity {
     return RecipeEntity(
         json = gson.toJson(this)
     )
+}
+
+fun RecipeModel.toSavedRecipeEntity(): SavedRecipeEntity {
+    val gson = Gson()
+    return SavedRecipeEntity(
+        this.id.toLong(),
+        json = gson.toJson(this)
+    )
+}
+
+fun SavedRecipeEntity.fromSavedRecipeEntity(): RecipeModel {
+    val gson = Gson()
+    return gson.fromJson(this.json, RecipeModel::class.java)
 }

@@ -13,8 +13,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.tasty.recipesapp.R
 import com.tasty.recipesapp.adapter.RecipeAdapter
+import com.tasty.recipesapp.model.InstructionModel
 import com.tasty.recipesapp.model.RecipeModel
 import com.tasty.recipesapp.viewmodel.RecipeListViewModel
+import com.tasty.recipesapp.wrappers.RecipeInstructionsParcelable
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -22,6 +24,7 @@ class ProfileFragment : Fragment() {
 
     private val recipeViewModel: RecipeListViewModel by viewModels()
     private lateinit var profileRecyclerView: RecyclerView
+    private var profileAdapter: RecipeAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,24 +37,49 @@ class ProfileFragment : Fragment() {
         // Set the LayoutManager for the RecyclerView
         profileRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        recipeViewModel.recipeList.observe(viewLifecycleOwner, Observer { recipes ->
-            val randomRecipes = recipes.shuffled().take(3) // Pick 3 random recipes
-            val profileAdapter = RecipeAdapter(
-                recipeList = randomRecipes,
-                onItemClick = { recipe -> navigateToRecipeDetail(recipe) }
-            )
-            profileRecyclerView.adapter = profileAdapter
+        recipeViewModel.favoriteRecipes.observe(viewLifecycleOwner, Observer { favoriteRecipes ->
+            if (profileAdapter == null) {
+                val profileAdapter = RecipeAdapter(
+                    recipeList = favoriteRecipes,
+                    onItemClick = { recipe -> navigateToRecipeDetail(recipe) },
+                    onFavoriteClick = { recipe ->
+                        recipe.isFavorite = !recipe.isFavorite
+                        recipeViewModel.toggleFavoriteRecipe(recipe) // Toggle favorite when clicked
+                    }
+                )
+                profileRecyclerView.adapter = profileAdapter
+            } else {
+                profileAdapter?.recipeList = favoriteRecipes
+                profileAdapter?.notifyDataSetChanged()
+            }
         })
 
-        recipeViewModel.fetchRecipeData()
+        recipeViewModel.loadFavoriteRecipes()
 
         return rootView
     }
 
     private fun navigateToRecipeDetail(recipe: RecipeModel) {
+        val instructionModels = recipe.instructions.mapIndexed { index, instructionText ->
+            // Create an InstructionModel for each instruction
+            InstructionModel(id = index + 1, displayText = instructionText.displayText, position = index + 1)
+        }
+
+        // Now create the RecipeInstructionsParcelable with the List<InstructionModel>
+        val instructionsParcelable = RecipeInstructionsParcelable(instructionModels)
+
+        val bundle = Bundle().apply {
+            putString("recipeId", recipe.id.toString())
+            putString("recipeName", recipe.name)
+            putString("recipeDescription", recipe.description)
+            putString("recipeThumbnail", recipe.thumbnailUrl)
+            putString("recipeOriginalVideoUrl", recipe.originalVideoUrl)
+            putParcelable("recipeInstructions", instructionsParcelable) // Use ArrayList as Serializable
+        }
+
         findNavController().navigate(
             R.id.action_profileFragment_to_recipeDetailFragment,
-            bundleOf("recipeId" to recipe.id, "recipeName" to recipe.name, "recipeDescription" to recipe.description, "recipeThumbnail" to recipe.thumbnailUrl)
+            bundle
         )
     }
 }

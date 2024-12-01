@@ -8,10 +8,13 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.tasty.recipesapp.dao.RecipeDao
 import com.tasty.recipesapp.entities.RecipeEntity
+import com.tasty.recipesapp.entities.SavedRecipeEntity
+import com.tasty.recipesapp.mappers.fromSavedRecipeEntity
 import com.tasty.recipesapp.mappers.toEntity
 import java.io.IOException
 import com.tasty.recipesapp.mappers.toModel
 import com.tasty.recipesapp.mappers.toModelList
+import com.tasty.recipesapp.mappers.toSavedRecipeEntity
 import org.json.JSONObject
 
 class RecipeRepository(private val recipeDao: RecipeDao) {
@@ -30,19 +33,23 @@ class RecipeRepository(private val recipeDao: RecipeDao) {
         return recipes ?: emptyList()
     }
 
-    // Add a favorite recipe
-    suspend fun addFavoriteRecipe(recipe: RecipeModel) {
-        recipeDao.insert(recipe)
+    suspend fun getSavedRecipes(): List<RecipeModel> {
+        return recipeDao.getSavedRecipes().map { savedRecipeEntity ->
+            savedRecipeEntity.fromSavedRecipeEntity()  // Convert each SavedRecipeEntity to Recipe
+        }
     }
 
-    // Remove a favorite recipe
-    suspend fun removeFavoriteRecipe(recipeId: Int) {
-        recipeDao.delete(recipeId)
-    }
-
-    // Get all favorite recipes
-    fun getFavoriteRecipes(): LiveData<List<FavoriteRecipe>> {
-        return recipeDao.getAllFavorites()
+    // Function to toggle the saved state of a recipe
+    suspend fun toggleSavedRecipe(recipe: RecipeModel) {
+        val savedRecipe = recipe.toSavedRecipeEntity()
+        Log.i("RECIPE", "Saved recipe: $savedRecipe")
+        if (recipeDao.getSavedRecipeById(savedRecipe.internalId) == null) {
+            Log.i("RECIPE", "Inserting saved recipe")
+            insertSavedRecipe(savedRecipe)
+        } else {
+            removeSavedRecipe(savedRecipe)
+            Log.i("RECIPE", "Removing saved recipe")
+        }
     }
 
     // Get all recipes from the Room database
@@ -53,6 +60,16 @@ class RecipeRepository(private val recipeDao: RecipeDao) {
             val gson = Gson()
             gson.fromJson(jsonObject.toString(), RecipeDTO::class.java).toModel()
         }
+    }
+
+    // Function to insert a saved recipe into the database
+    private suspend fun insertSavedRecipe(savedRecipe: SavedRecipeEntity) {
+        recipeDao.insertSavedRecipe(savedRecipe)
+    }
+
+    // Function to remove a saved recipe from the database
+    suspend fun removeSavedRecipe(savedRecipe: SavedRecipeEntity) {
+        recipeDao.removeSavedRecipe(savedRecipe)
     }
 
     // Add a new recipe to the database
