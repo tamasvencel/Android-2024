@@ -13,6 +13,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.tasty.recipesapp.R
 import com.tasty.recipesapp.adapter.RecipeAdapter
 import com.tasty.recipesapp.model.InstructionModel
@@ -32,6 +33,7 @@ class RecipesFragment : Fragment() {
     private val recipeViewModel: RecipeListViewModel by viewModels()
     private lateinit var recipeRecyclerView: RecyclerView
     private var recipeAdapter: RecipeAdapter? = null
+    private lateinit var fabAddRecipe: FloatingActionButton
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,6 +47,12 @@ class RecipesFragment : Fragment() {
 
         // Set LayoutManager for RecyclerView
         recipeRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+        fabAddRecipe = rootView.findViewById(R.id.fabAddRecipe)
+
+        fabAddRecipe.setOnClickListener {
+            findNavController().navigate(R.id.action_recipesFragment_to_newRecipeFragment)
+        }
 
         recipeViewModel.fetchRecipeData()
 

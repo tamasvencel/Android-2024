@@ -67,14 +67,17 @@ class RecipeRepository(private val recipeDao: RecipeDao) {
         recipeDao.insertSavedRecipe(savedRecipe)
     }
 
+    // Add a new recipe to the database
+    suspend fun insertRecipe(recipe: RecipeEntity) {
+        Log.d("RecipeRepository", "RecipeEntity before insertion: $recipe")
+        recipeDao.insertRecipe(recipe)
+        Log.d("RecipeRepository", "Recipe inserted: $recipe")
+    }
+
+
     // Function to remove a saved recipe from the database
     suspend fun removeSavedRecipe(savedRecipe: SavedRecipeEntity) {
         recipeDao.removeSavedRecipe(savedRecipe)
-    }
-
-    // Add a new recipe to the database
-    suspend fun insertRecipe(recipe: RecipeEntity) {
-        recipeDao.insertRecipe(recipe)
     }
 
     // Delete a recipe from the database

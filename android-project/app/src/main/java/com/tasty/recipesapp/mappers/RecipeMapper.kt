@@ -20,7 +20,8 @@ fun RecipeDTO.toModel(): RecipeModel {
         country = this.country,
         numServings = this.numServings,
         components = this.components.map { it.toModel() },
-        instructions = this.instructions?.toModelList() ?: emptyList()
+        instructions = this.instructions?.toModelList() ?: emptyList(),
+        isFavorite = this.isFavorite
     )
 }
 
@@ -38,6 +39,7 @@ fun RecipeEntity.toModel(): RecipeModel {
 fun RecipeModel.toEntity(): RecipeEntity {
     val gson = Gson()
     return RecipeEntity(
+        this.id.toLong(),
         json = gson.toJson(this)
     )
 }
@@ -51,6 +53,11 @@ fun RecipeModel.toSavedRecipeEntity(): SavedRecipeEntity {
 }
 
 fun SavedRecipeEntity.fromSavedRecipeEntity(): RecipeModel {
+    val gson = Gson()
+    return gson.fromJson(this.json, RecipeModel::class.java)
+}
+
+fun SavedRecipeEntity.fromEntity(): RecipeModel {
     val gson = Gson()
     return gson.fromJson(this.json, RecipeModel::class.java)
 }

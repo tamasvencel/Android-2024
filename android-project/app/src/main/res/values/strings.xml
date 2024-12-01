@@ -19,10 +19,13 @@
     <string name="no_instructions_available">No instructions available</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="recipe_name_2">Recipe Name</string>
+    <string name="recipe_title">Recipe Title</string>
     <string name="recipe_description_2">Recipe Description</string>
     <string name="recipe_ingredients">Recipe Ingredients</string>
-    <string name="recipe_instructions">Recipe Instructions</string>
+    <string name="recipe_instruction">Recipe Instruction</string>
     <string name="save_recipe">Save Recipe</string>
     <string name="favorite_icon">favorite icon</string>
+    <string name="add_new_recipe">add new recipe</string>
+    <string name="recipe_picture_url">Recipe Picture URL</string>
+    <string name="add_instruction">Add Instruction</string>
 </resources>

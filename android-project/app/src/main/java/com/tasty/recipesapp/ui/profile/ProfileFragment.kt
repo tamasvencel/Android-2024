@@ -1,6 +1,7 @@
 package com.tasty.recipesapp.ui.profile
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +9,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,14 +17,17 @@ import com.tasty.recipesapp.R
 import com.tasty.recipesapp.adapter.RecipeAdapter
 import com.tasty.recipesapp.model.InstructionModel
 import com.tasty.recipesapp.model.RecipeModel
+import com.tasty.recipesapp.viewmodel.ProfileViewModel
 import com.tasty.recipesapp.viewmodel.RecipeListViewModel
 import com.tasty.recipesapp.wrappers.RecipeInstructionsParcelable
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class ProfileFragment : Fragment() {
 
     private val recipeViewModel: RecipeListViewModel by viewModels()
+    private val profileViewModel: ProfileViewModel by viewModels()
     private lateinit var profileRecyclerView: RecyclerView
     private var profileAdapter: RecipeAdapter? = null
 
@@ -57,6 +62,14 @@ class ProfileFragment : Fragment() {
         recipeViewModel.loadFavoriteRecipes()
 
         return rootView
+    }
+
+
+    private fun fetchAndSetRecipes() {
+        // Use lifecycleScope to launch the coroutine
+        viewLifecycleOwner.lifecycleScope.launch {
+            profileViewModel.allRecipes()
+        }
     }
 
     private fun navigateToRecipeDetail(recipe: RecipeModel) {

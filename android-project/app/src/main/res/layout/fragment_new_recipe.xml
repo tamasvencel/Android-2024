@@ -2,16 +2,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@drawable/recipes_background"
     android:padding="16dp">
 
     <!-- Recipe Name Input -->
     <EditText
-        android:id="@+id/recipeName"
+        android:id="@+id/recipeTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
-        android:autofillHints="name"
-        android:hint="@string/recipe_name_2"
+        android:autofillHints="title"
+        android:hint="@string/recipe_title"
+        android:textSize="18sp"
+        android:padding="16dp"
+        android:textColorHint="@color/dark_gray"
+        android:textColor="@color/better_white"
+        android:backgroundTint="@android:color/white"
         android:importantForAccessibility="yes" />
 
     <!-- Recipe Description Input -->
@@ -22,17 +28,27 @@
         android:inputType="textMultiLine"
         android:autofillHints="description"
         android:hint="@string/recipe_description_2"
+        android:textSize="18sp"
+        android:padding="16dp"
+        android:textColorHint="@color/dark_gray"
+        android:textColor="@color/better_white"
+        android:backgroundTint="@android:color/white"
         android:importantForAccessibility="yes" />
 
-    <!-- Recipe Ingredients Input -->
+    <!-- Recipe Picture URL -->
     <EditText
-        android:id="@+id/recipeIngredients"
+        android:id="@+id/recipePictureUrl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textMultiLine"
-        android:autofillHints="ingredients"
-        android:hint="@string/recipe_ingredients"
-        android:importantForAccessibility="yes" />
+        android:inputType="textUri"
+        android:hint="@string/recipe_picture_url"
+        android:autofillHints="picture_url"
+        android:textSize="18sp"
+        android:padding="16dp"
+        android:textColorHint="@color/dark_gray"
+        android:textColor="@color/better_white"
+        android:backgroundTint="@android:color/white"
+        />
 
     <!-- Recipe Instructions Input -->
     <EditText
@@ -41,8 +57,28 @@
         android:layout_height="wrap_content"
         android:inputType="textMultiLine"
         android:autofillHints="instructions"
-        android:hint="@string/recipe_instructions"
+        android:textSize="18sp"
+        android:padding="16dp"
+        android:hint="@string/recipe_instruction"
+        android:textColorHint="@color/dark_gray"
+        android:textColor="@color/better_white"
+        android:backgroundTint="@android:color/white"
         android:importantForAccessibility="yes" />
+
+    <LinearLayout
+        android:id="@+id/instructionsLayout"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <!-- Add Instruction Button -->
+    <Button
+        android:id="@+id/addInstructionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add_instruction"
+        android:backgroundTint="@color/darker_orange"
+        android:layout_marginTop="16dp" />
 
     <!-- Save Button -->
     <Button
@@ -50,6 +86,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/save_recipe"
+        android:backgroundTint="@color/darker_orange"
         android:importantForAccessibility="yes" />
 
 </LinearLayout>

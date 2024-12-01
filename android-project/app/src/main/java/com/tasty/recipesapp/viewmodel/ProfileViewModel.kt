@@ -20,15 +20,15 @@ class ProfileViewModel @Inject constructor(
     private val _recipes = MutableLiveData<List<RecipeModel>>()
     val recipes: LiveData<List<RecipeModel>> = _recipes
 
+//    suspend fun insertRecipe(recipe: RecipeModel) {
+//        recipeRepository.insertRecipe(recipe.toEntity())
+//    }
+
     suspend fun allRecipes(): List<RecipeModel> {
         if (_recipes.value.isNullOrEmpty()) {
             _recipes.value = recipeRepository.getAllRecipes()
         }
         return _recipes.value.orEmpty()
-    }
-
-    suspend fun insertRecipe(recipe: RecipeModel) {
-        recipeRepository.insertRecipe(recipe.toEntity())
     }
 
     suspend fun deleteRecipe(recipe: RecipeModel) {

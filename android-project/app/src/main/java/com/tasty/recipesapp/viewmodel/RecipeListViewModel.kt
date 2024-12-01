@@ -1,12 +1,15 @@
 package com.tasty.recipesapp.viewmodel
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tasty.recipesapp.entities.SavedRecipeEntity
+import com.tasty.recipesapp.mappers.toEntity
+import com.tasty.recipesapp.mappers.toSavedRecipeEntity
 import com.tasty.recipesapp.model.RecipeModel
 import com.tasty.recipesapp.repository.RecipeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -44,6 +47,16 @@ class RecipeListViewModel @Inject constructor(
             recipeRepository.toggleSavedRecipe(recipe)
             // Reload favorite recipes after toggling
             loadFavoriteRecipes()
+        }
+    }
+
+    fun insertRecipe(recipe: RecipeModel) {
+        viewModelScope.launch {
+            val newRecipe = recipe.toEntity()
+            Log.d("RecipeListViewModel", "Recipe after converting to entity: ${recipe.toEntity()}")
+            recipeRepository.insertRecipe(newRecipe)
+            Log.d("RecipeListViewModel", "Recipe inserted: $recipe")
+            fetchRecipeData()
         }
     }
 
