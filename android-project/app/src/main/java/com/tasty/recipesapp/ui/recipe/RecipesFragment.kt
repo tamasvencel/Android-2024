@@ -55,7 +55,7 @@ class RecipesFragment : Fragment() {
             findNavController().navigate(R.id.action_recipesFragment_to_newRecipeFragment)
         }
 
-        recipeViewModel.fetchRecipeData()
+        recipeViewModel.getAllRecipesFromApi()
 
         recipeDao = RecipeDatabase.getDatabase(requireContext()).recipeDao()
 
@@ -92,7 +92,7 @@ class RecipesFragment : Fragment() {
             }
         })
 
-        recipeViewModel.fetchRecipeData()
+//        recipeViewModel.getAllRecipesFromApi()
 
         return rootView
     }

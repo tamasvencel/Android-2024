@@ -33,7 +33,7 @@ class ProfileViewModel @Inject constructor(
 
     suspend fun allRecipes(): List<RecipeModel> {
         if (_recipes.value.isNullOrEmpty()) {
-            _recipes.value = recipeRepository.getAllRecipes()
+            _recipes.value = recipeRepository.getSavedRecipes()
         }
         return _recipes.value.orEmpty()
     }

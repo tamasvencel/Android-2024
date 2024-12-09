@@ -15,10 +15,23 @@ import java.io.IOException
 import com.tasty.recipesapp.mappers.toModel
 import com.tasty.recipesapp.mappers.toModelList
 import com.tasty.recipesapp.mappers.toSavedRecipeEntity
+import com.tasty.recipesapp.retrofit.RecipeApiClient
 import org.json.JSONObject
 
 class RecipeRepository(private val recipeDao: RecipeDao) {
     private var recipes: List<RecipeModel>? = null
+
+    private val recipeApiClient = RecipeApiClient()
+
+    // Fetch recipes from the API and map them to RecipeModel
+    suspend fun getRecipesFromApi(): List<RecipeModel> {
+        return recipeApiClient.getRecipes() ?: emptyList() // Return empty list if there's an error
+    }
+
+    // Fetch a specific recipe detail by ID from the API
+    suspend fun getRecipeDetailFromApi(id: Int): RecipeModel? {
+        return recipeApiClient.getRecipeDetail(id)
+    }
 
     // Get all recipes from the Room database
     private fun getAll(): List<RecipeModel> {

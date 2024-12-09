@@ -31,6 +31,14 @@ class RecipeListViewModel @Inject constructor(
     private val _favoriteRecipes = MutableLiveData<List<RecipeModel>>()
     val favoriteRecipes: LiveData<List<RecipeModel>> = _favoriteRecipes
 
+    // Fetch all recipes from the API
+    fun getAllRecipesFromApi() {
+        viewModelScope.launch {
+            val recipes = recipeRepository.getRecipesFromApi()
+            _recipeList.value = recipes
+        }
+    }
+
     fun fetchRecipeData() {
         if (_recipeList.value.isNullOrEmpty()) {
             _recipeList.value = recipeRepository.getRecipes()
