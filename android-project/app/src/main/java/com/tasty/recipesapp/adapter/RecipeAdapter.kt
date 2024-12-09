@@ -93,8 +93,13 @@ class RecipeAdapter(
             try {
                 // Make sure recipeDao is initialized and delete the recipe
                 val savedRecipeEntity = recipe.toSavedRecipeEntity() // Ensure this is correctly mapped
+                val savedRecipeInDb = recipeDao.getSavedRecipeByJson(savedRecipeEntity.json)
+
+                if (savedRecipeInDb != null) {
+                    recipeDao.removeSavedRecipe(savedRecipeInDb.internalId)
+                }
+
                 recipe.isFavorite = !recipe.isFavorite
-                recipeDao.removeSavedRecipe(savedRecipeEntity)
 
                 // Once deleted, we should remove the recipe from the adapter list as well
                 CoroutineScope(Dispatchers.Main).launch {

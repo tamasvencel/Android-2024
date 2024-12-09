@@ -18,11 +18,11 @@ interface RecipeDao {
     @Query("SELECT * FROM recipe")
     suspend fun getAllRecipes(): List<RecipeEntity>
 
-    @Delete
-    suspend fun deleteRecipe(recipe: RecipeEntity)
+//    @Delete
+//    suspend fun deleteRecipe(recipe: RecipeEntity)
 
     @Insert
-    suspend fun insertSavedRecipe(savedRecipe: SavedRecipeEntity)
+    suspend fun insertSavedRecipe(savedRecipe: SavedRecipeEntity): Long
 
     @Query("SELECT * FROM saved_recipe")
     suspend fun getSavedRecipes(): List<SavedRecipeEntity>
@@ -30,6 +30,12 @@ interface RecipeDao {
     @Query("SELECT * FROM saved_recipe WHERE internalId = :id")
     suspend fun getSavedRecipeById(id: Long): SavedRecipeEntity?
 
-    @Delete
-    suspend fun removeSavedRecipe(savedRecipe: SavedRecipeEntity)
+//    @Delete
+//    suspend fun removeSavedRecipe(savedRecipe: SavedRecipeEntity)
+
+    @Query("DELETE FROM saved_recipe WHERE internalId = :id")
+    suspend fun removeSavedRecipe(id: Long)
+
+    @Query("SELECT * FROM saved_recipe WHERE json = :json")
+    suspend fun getSavedRecipeByJson(json: String): SavedRecipeEntity?
 }

@@ -56,12 +56,27 @@ class RecipeRepository(private val recipeDao: RecipeDao) {
     suspend fun toggleSavedRecipe(recipe: RecipeModel) {
         val savedRecipe = recipe.toSavedRecipeEntity()
         Log.i("RECIPE", "Saved recipe: $savedRecipe")
-        if (recipeDao.getSavedRecipeById(savedRecipe.internalId) == null) {
-            Log.i("RECIPE", "Inserting saved recipe")
-            insertSavedRecipe(savedRecipe)
+
+        val savedRecipeInDb = recipeDao.getSavedRecipeByJson(savedRecipe.json)
+
+        if (savedRecipeInDb == null) {
+            if (recipe.isFavorite) {
+                Log.i("RECIPE", "Saving new favorite recipe.")
+                insertSavedRecipe(savedRecipe)
+//                // Toggle favorite status
+//                recipe.isFavorite = !recipe.isFavorite
+            } else {
+                Log.w("RECIPE", "No saved recipe to remove.")
+            }
         } else {
-            removeSavedRecipe(savedRecipe)
-            Log.i("RECIPE", "Removing saved recipe")
+            if (!recipe.isFavorite) {
+                Log.i("RECIPE", "Recipe already saved as favorite.")
+            } else {
+                Log.i("RECIPE", "Removing saved recipe with internalId = ${savedRecipeInDb.internalId}")
+                removeSavedRecipe(savedRecipeInDb)
+//                // Toggle favorite status
+//                recipe.isFavorite = !recipe.isFavorite
+            }
         }
     }
 
@@ -83,7 +98,15 @@ class RecipeRepository(private val recipeDao: RecipeDao) {
 
     // Function to insert a saved recipe into the database
     private suspend fun insertSavedRecipe(savedRecipe: SavedRecipeEntity) {
-        recipeDao.insertSavedRecipe(savedRecipe)
+        Log.d("RecipeRepository", "RecipeEntity before insertion: $savedRecipe")
+        val generatedId = recipeDao.insertSavedRecipe(savedRecipe)
+
+        // Log the generated ID
+        Log.d("RecipeRepository", "Generated internalId: $generatedId")
+
+        // Update the internalId in the savedRecipe object
+        val updatedRecipe = savedRecipe.copy(internalId = generatedId)
+        Log.d("RecipeRepository", "Recipe inserted: $updatedRecipe")
     }
 
     // Add a new recipe to the database
@@ -96,7 +119,8 @@ class RecipeRepository(private val recipeDao: RecipeDao) {
 
     // Function to remove a saved recipe from the database
     suspend fun removeSavedRecipe(savedRecipe: SavedRecipeEntity) {
-        recipeDao.removeSavedRecipe(savedRecipe)
+        Log.d("RecipeRepository", "ASD: internalId = ${savedRecipe.internalId}")
+        recipeDao.removeSavedRecipe(savedRecipe.internalId)
     }
 
     // Fetch a single recipe by its ID

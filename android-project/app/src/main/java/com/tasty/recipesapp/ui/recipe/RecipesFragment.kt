@@ -66,10 +66,10 @@ class RecipesFragment : Fragment() {
                         recipeList = recipes,
                         onItemClick = { recipe -> navigateToRecipeDetail(recipe) },
                         onFavoriteClick = { recipe ->
+                            recipeViewModel.toggleFavoriteRecipe(recipe)
+
                             // Toggle favorite status
                             recipe.isFavorite = !recipe.isFavorite
-
-                            recipeViewModel.toggleFavoriteRecipe(recipe)
 
                             // Find the position of the updated recipe and notify only that item
                             val position = recipes.indexOf(recipe)
@@ -92,7 +92,7 @@ class RecipesFragment : Fragment() {
             }
         })
 
-//        recipeViewModel.getAllRecipesFromApi()
+        recipeViewModel.getAllRecipesFromApi()
 
         return rootView
     }
@@ -107,7 +107,7 @@ class RecipesFragment : Fragment() {
         val instructionsParcelable = RecipeInstructionsParcelable(instructionModels)
 
         val bundle = Bundle().apply {
-            putString("recipeId", recipe.id.toString())
+            putLong("recipeId", recipe.id)
             putString("recipeName", recipe.name)
             putString("recipeDescription", recipe.description)
             putString("recipeThumbnail", recipe.thumbnailUrl)

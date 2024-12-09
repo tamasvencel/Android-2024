@@ -52,8 +52,9 @@ class ProfileFragment : Fragment() {
                     recipeList = favoriteRecipes,
                     onItemClick = { recipe -> navigateToRecipeDetail(recipe) },
                     onFavoriteClick = { recipe ->
-                        recipe.isFavorite = !recipe.isFavorite
                         recipeViewModel.toggleFavoriteRecipe(recipe) // Toggle favorite when clicked
+
+                        recipe.isFavorite = !recipe.isFavorite
                     },
                      onDeleteClick = { recipe ->
                          recipeViewModel.deleteRecipe(recipe)
