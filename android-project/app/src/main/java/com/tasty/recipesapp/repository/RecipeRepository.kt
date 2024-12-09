@@ -63,8 +63,6 @@ class RecipeRepository(private val recipeDao: RecipeDao) {
             if (recipe.isFavorite) {
                 Log.i("RECIPE", "Saving new favorite recipe.")
                 insertSavedRecipe(savedRecipe)
-//                // Toggle favorite status
-//                recipe.isFavorite = !recipe.isFavorite
             } else {
                 Log.w("RECIPE", "No saved recipe to remove.")
             }
@@ -74,8 +72,6 @@ class RecipeRepository(private val recipeDao: RecipeDao) {
             } else {
                 Log.i("RECIPE", "Removing saved recipe with internalId = ${savedRecipeInDb.internalId}")
                 removeSavedRecipe(savedRecipeInDb)
-//                // Toggle favorite status
-//                recipe.isFavorite = !recipe.isFavorite
             }
         }
     }
